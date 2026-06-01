@@ -3,9 +3,1069 @@
 # Documentation for this file format can be found in "The Data Catalog"
 # Link: https://docs.kedro.org/en/stable/catalog-data/introduction/#data-catalog
 
+# =============================================================================
+# DEMOGRAPHICS
+# =============================================================================
+
 demo_j_dataset:
   type: pandas.GenericDataset
   filepath: data/01_raw/DEMO_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# =============================================================================
+# DIETARY DATA
+# =============================================================================
+
+# Dietary Interview - Individual Foods (Day 1)
+dr1iff_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DR1IFF_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dietary Interview - Total Nutrient Intakes (Day 1)
+dr1tot_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DR1TOT_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dietary Interview - Individual Foods (Day 2)
+dr2iff_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DR2IFF_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dietary Interview - Total Nutrient Intakes (Day 2)
+dr2tot_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DR2TOT_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dietary Interview - Food Codes
+drxfcd_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DRXFCD_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dietary Supplement Use - Individual (Day 1)
+ds1ids_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DS1IDS_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dietary Supplement Use - Total (Day 1)
+ds1tot_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DS1TOT_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dietary Supplement Use - Individual (Day 2)
+ds2ids_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DS2IDS_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dietary Supplement Use - Total (Day 2)
+ds2tot_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DS2TOT_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dietary Supplement Database - Blend Products
+dsbi_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DSBI.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dietary Supplement Database - Ingredient Information
+dsii_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DSII.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dietary Supplement Database - Product Information
+dspi_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DSPI.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dietary Supplement Use - 30 Day - Individual
+dsqids_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DSQIDS_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dietary Supplement Use - 30 Day - Total
+dsqtot_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DSQTOT_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# =============================================================================
+# EXAMINATION DATA
+# =============================================================================
+
+# Audiometry
+aux_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/AUX_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Audiometry - Acoustic Reflex
+auxar_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/AUXAR_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Audiometry - Tympanometry
+auxtym_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/AUXTYM_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Audiometry - Wideband Reflectance
+auxwbr_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/AUXWBR_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Body Measures
+bmx_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/BMX_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Blood Pressure
+bpx_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/BPX_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Blood Pressure - Oscillometric
+bpxo_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/BPXO_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dual-Energy X-ray Absorptiometry - Whole Body
+dxx_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DXX_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dual-Energy X-ray Absorptiometry - Android/Gynoid
+dxxag_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DXXAG_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dual-Energy X-ray Absorptiometry - Femur
+dxxfem_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DXXFEM_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dual-Energy X-ray Absorptiometry - Spine
+dxxspn_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DXXSPN_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Oral Health - Dentition
+ohxden_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/OHXDEN_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Oral Health - Recommendation of Care
+ohxref_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/OHXREF_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# =============================================================================
+# LABORATORY DATA
+# =============================================================================
+
+# Albumin & Creatinine - Urine
+alb_cr_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/ALB_CR_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Standard Biochemistry Profile
+biopro_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/BIOPRO_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Complete Blood Count with 5-Part Differential
+cbc_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/CBC_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Cytomegalovirus IgG & IgM Antibodies - Serum
+cmv_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/CMV_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Cotinine & Hydroxycotinine - Serum
+cot_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/COT_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Chromium & Cobalt - Urine
+crco_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/CRCO_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Environmental Phenols & Parabens - Urine
+ephpp_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/EPHPP_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Ethylene Oxide - Blood
+ethox_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/ETHOX_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Fasting Questionnaire
+fastqx_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/FASTQX_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Ferritin - Serum
+fertin_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/FERTIN_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Iron Status - Serum (Fe, TIBC, Transferrin Saturation)
+fetib_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/FETIB_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Folate - RBC & Serum
+folate_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/FOLATE_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Folate Forms - Total & Individual - Serum
+folfms_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/FOLFMS_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Fluoride - Plasma
+fr_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/FR_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Glycohemoglobin (HbA1c)
+ghb_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/GHB_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Plasma Fasting Glucose
+glu_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/GLU_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# HDL Cholesterol
+hdl_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/HDL_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Hepatitis A Antibody
+hepa_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/HEPA_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Hepatitis B: Core Antibody, Surface Antigen & Hepatitis D Antibody
+hepbd_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/HEPBD_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Hepatitis B: Surface Antibody
+hepb_s_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/HEPB_S_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Hepatitis C
+hepc_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/HEPC_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Hepatitis E
+hepe_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/HEPE_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# HIV Antibody Test
+hiv_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/HIV_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# High-Sensitivity C-Reactive Protein
+hscrp_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/HSCRP_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Mercury: Inorganic & Ethyl - Blood
+ihgem_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/IHGEM_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Insulin - Serum
+ins_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/INS_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Organophosphate Insecticides - Dialkyl Phosphate Metabolites - Urine
+opd_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/OPD_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Polycyclic Aromatic Hydrocarbons (PAH) - Urine
+pah_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/PAH_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Lead, Cadmium, Total Mercury, Selenium & Manganese - Blood
+pbcd_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/PBCD_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Perchlorate, Nitrate & Thiocyanate - Urine
+pernt_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/PERNT_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Per- and Polyfluoroalkyl Substances (PFAS) - Serum
+pfas_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/PFAS_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Phthalates & Plasticizers Metabolites - Urine
+phthte_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/PHTHTE_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Alpha-1-Acid Glycoprotein (AGP) - Serum (Surplus)
+ssagp_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/SSAGP_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Flame Retardants - Urine (Surplus)
+ssfr_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/SSFR_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Glyphosate - Urine (Surplus)
+ssglyp_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/SSGLYP_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Neonicotinoids & Metabolites - Urine (Surplus)
+ssneon_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/SSNEON_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Per- and Polyfluoroalkyl Substances (PFAS) - Serum (Surplus)
+sspfas_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/SSPFAS_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Testosterone - Serum (Surplus)
+sstst_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/SSTST_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Volatile Compounds - Blood (Surplus)
+ssuvcm_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/SSUVCM_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Volatile Organic Compounds - Urine (Surplus)
+ssuvoc_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/SSUVOC_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Total Cholesterol
+tchol_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/TCHOL_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Transferrin Receptor
+tfr_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/TFR_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Triglycerides & LDL Cholesterol
+trigly_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/TRIGLY_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Urinary Arsenics - Total & Speciated
+uas_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/UAS_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Urine Flow Rate
+ucflow_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/UCFLOW_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Urinary Chromium & Cobalt
+ucm_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/UCM_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Cotinine & Hydroxycotinine - Urine
+ucot_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/UCOT_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Urine Pregnancy Test
+ucpreg_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/UCPREG_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Urinary Mercury
+uhg_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/UHG_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Urinary Iodine
+uio_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/UIO_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Urinary Metals
+um_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/UM_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Urinary Nickel & Vanadium
+uni_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/UNI_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Organophosphate Insecticides - Urinary Metabolites
+uphopm_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/UPHOPM_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Urinary Total Arsenic
+utas_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/UTAS_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Volatile Organic Compounds - Urine
+uvoc_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/UVOC_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Vitamin C - Serum
+vic_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/VIC_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Vitamin D (25-Hydroxyvitamin D)
+vid_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/VID_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Vitamin A, Vitamin E & Carotenoids
+vitaec_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/VITAEC_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Volatile Organic Compounds - Blood
+vocwb_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/VOCWB_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# =============================================================================
+# QUESTIONNAIRE DATA
+# =============================================================================
+
+# Acculturation
+acq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/ACQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Alcohol Use
+alq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/ALQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Audiometry (Questionnaire)
+auq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/AUQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Blood Pressure & Cholesterol
+bpq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/BPQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Consumer Behavior Phone Follow-up - Adult
+cbqpfa_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/CBQPFA_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Consumer Behavior Phone Follow-up - Child
+cbqpfc_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/CBQPFC_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Consumer Behavior
+cbq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/CBQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Cardiovascular Health
+cdq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/CDQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Diet Behavior & Nutrition
+dbq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DBQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Dermatology
+deq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DEQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Diabetes
+diq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DIQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Disability
+dlq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DLQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Mental Health - Depression Screener (PHQ-9)
+dpq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DPQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Drug Use
+duq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/DUQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Early Childhood
+ecq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/ECQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Food Security
+fsq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/FSQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Hepatitis (Questionnaire)
+heq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/HEQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Health Insurance
+hiq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/HIQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Housing Characteristics
+hoq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/HOQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Current Health Status
+hsq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/HSQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Hospital Utilization & Access to Care
+huq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/HUQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Immunization
+imq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/IMQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Income
+inq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/INQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Kidney Conditions - Urology
+kiq_u_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/KIQ_U_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Medical Conditions
+mcq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/MCQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Occupation
+ocq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/OCQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Oral Health (Questionnaire)
+ohq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/OHQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Osteoporosis
+osq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/OSQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Physical Activity
+paq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/PAQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Physical Activity - Youth
+paqy_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/PAQY_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Physical Functioning
+pfq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/PFQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Pesticide Use
+puqmec_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/PUQMEC_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Reproductive Health
+rhq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/RHQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Aspirin Use
+rxqasa_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/RXQASA_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Prescription Medications Drug Information
+rxq_drug_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/RXQ_DRUG.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Prescription Medications
+rxq_rx_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/RXQ_RX_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Sleep Disorders
+slq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/SLQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Smoking - Cigarette Use
+smq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/SMQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Smoking - Household Smokers
+smqfam_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/SMQFAM_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Smoking - Recent Tobacco Use
+smqrtu_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/SMQRTU_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Smoking - Secondhand Smoke Exposure
+smqshs_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/SMQSHS_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Volatile Toxicant (Questionnaire)
+vtq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/VTQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Weight History
+whq_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/WHQ_J.xpt
+  file_format: sas
+  load_args:
+    format: xport
+
+# Weight History - Youth
+whqmec_j_dataset:
+  type: pandas.GenericDataset
+  filepath: data/01_raw/WHQMEC_J.xpt
   file_format: sas
   load_args:
     format: xport
