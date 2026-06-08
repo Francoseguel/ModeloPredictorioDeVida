@@ -2,3 +2,6 @@ ipython>=8.10
 jupyterlab>=3.0
 notebook
 kedro~=1.4.0
+matplotlib>=3.7
+seaborn>=0.13
+missingno>=0.5
