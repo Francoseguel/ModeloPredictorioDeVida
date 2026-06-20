@@ -11,7 +11,8 @@ dependencies = [
     "ipython>=8.10",
     "jupyterlab>=3.0",
     "notebook",
-    "kedro~=1.4.0"
+    "kedro~=1.4.0",
+    "scikit-learn>=1.7.2",
 ]
 
 [project.scripts]

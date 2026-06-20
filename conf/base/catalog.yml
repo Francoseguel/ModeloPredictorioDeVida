@@ -341,3 +341,230 @@ pbcd_j_dataset:
 # Nutricional/ayuno (Tier 2 opcional): glu_j, ins_j, trigly_j, fertin_j,
 #   fastqx_j  (reactivar si decides usar biomarcadores de ayuno)
 # #############################################################################
+
+
+# #############################################################################
+# CAPA 02_intermediate — datasets consolidados (input de la preparacion)
+# Producidos por los notebooks 10-13 (un parquet por componente, SEQN = indice).
+# #############################################################################
+
+exam_intermediate:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/exam_intermediate.parquet
+
+lab_intermediate:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/lab_intermediate.parquet
+
+quest_intermediate:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/quest_intermediate.parquet
+
+diet_intermediate:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/diet_intermediate.parquet
+
+demo_intermediate:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/demo_intermediate.parquet
+
+
+# #############################################################################
+# PREPARACION DE DATOS — pipelines data_cleaning / data_imputation / data_encoding
+# Un set de salidas por dataset. Paramos en *_encoded (sin modelar todavia).
+# #############################################################################
+
+# --- 03_primary : limpieza (features sin target) + target en escala original --
+exam_clean:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/exam_clean.parquet
+
+exam_target_raw:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/exam_target_raw.parquet
+
+# --- 04_feature : escalado + imputacion KNN ----------------------------------
+exam_imputed:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/exam_imputed.parquet
+
+# --- 05_model_input : encoding final (numerico, listo para modelar) ----------
+exam_encoded:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/exam_encoded.parquet
+
+# ---- LABORATORY ----
+lab_clean:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/lab_clean.parquet
+lab_target_raw:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/lab_target_raw.parquet
+lab_imputed:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/lab_imputed.parquet
+lab_encoded:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/lab_encoded.parquet
+
+# ---- QUESTIONNAIRE ----
+quest_clean:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/quest_clean.parquet
+quest_target_raw:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/quest_target_raw.parquet
+quest_imputed:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/quest_imputed.parquet
+quest_encoded:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/quest_encoded.parquet
+
+# ---- DEMOGRAPHICS (sin target: covariables / spine. demo_target_raw queda vacio) ----
+demo_clean:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/demo_clean.parquet
+demo_target_raw:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/demo_target_raw.parquet
+demo_imputed:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/demo_imputed.parquet
+demo_encoded:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/demo_encoded.parquet
+
+# ---- DIETARY (pendiente target) ----
+diet_clean:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/diet_clean.parquet
+diet_target_raw:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/diet_target_raw.parquet
+diet_imputed:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/diet_imputed.parquet
+diet_encoded:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/diet_encoded.parquet
+
+
+# #############################################################################
+# DATA SPLIT (pipeline data_split) — target derivado + train/test estratificado
+# Solo datasets supervisados (exam/lab/quest). SEQN viaja en el indice.
+#   *_target            -> 06_model_input : y_reg + y_clf por persona
+#   *_X_train/_X_test   -> 06_model_input : features del split
+#   *_y_train/_test_*   -> 06_model_input : targets del split (clf y reg)
+# #############################################################################
+
+# ---- EXAMINATION ----
+exam_target:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/exam_target.parquet
+exam_X_train_raw:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/exam_X_train_raw.parquet
+exam_X_test_raw:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/exam_X_test_raw.parquet
+exam_X_train:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/exam_X_train.parquet
+exam_X_test:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/exam_X_test.parquet
+exam_y_train_clf:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/exam_y_train_clf.parquet
+exam_y_test_clf:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/exam_y_test_clf.parquet
+exam_y_train_reg:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/exam_y_train_reg.parquet
+exam_y_test_reg:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/exam_y_test_reg.parquet
+
+# ---- LABORATORY ----
+lab_target:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/lab_target.parquet
+lab_X_train_raw:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/lab_X_train_raw.parquet
+lab_X_test_raw:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/lab_X_test_raw.parquet
+lab_X_train:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/lab_X_train.parquet
+lab_X_test:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/lab_X_test.parquet
+lab_y_train_clf:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/lab_y_train_clf.parquet
+lab_y_test_clf:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/lab_y_test_clf.parquet
+lab_y_train_reg:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/lab_y_train_reg.parquet
+lab_y_test_reg:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/lab_y_test_reg.parquet
+
+# ---- QUESTIONNAIRE ----
+quest_target:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/quest_target.parquet
+quest_X_train_raw:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/quest_X_train_raw.parquet
+quest_X_test_raw:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/quest_X_test_raw.parquet
+quest_X_train:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/quest_X_train.parquet
+quest_X_test:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/quest_X_test.parquet
+quest_y_train_clf:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/quest_y_train_clf.parquet
+quest_y_test_clf:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/quest_y_test_clf.parquet
+quest_y_train_reg:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/quest_y_train_reg.parquet
+quest_y_test_reg:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/quest_y_test_reg.parquet
+
+
+# #############################################################################
+# MODELADO (pipeline modeling) — tablas comparativas de modelos por dataset
+# Modelos entrenados (.joblib) se guardan en models/trained_models/ (fuera de data/).
+# #############################################################################
+exam_clf_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/exam_clf_report.csv
+exam_reg_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/exam_reg_report.csv
+lab_clf_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/lab_clf_report.csv
+lab_reg_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/lab_reg_report.csv
+quest_clf_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/quest_clf_report.csv
+quest_reg_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/quest_reg_report.csv

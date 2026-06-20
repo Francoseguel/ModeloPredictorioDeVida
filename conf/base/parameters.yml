@@ -1,0 +1,285 @@
+# =============================================================================
+# PARAMETROS DE PREPARACION DE DATOS — NHANES Longevidad
+# -----------------------------------------------------------------------------
+# Un bloque por dataset (componente). Cada bloque alimenta los 3 pipelines:
+#   data_cleaning -> data_imputation -> data_encoding
+# Misma logica que prueba2 (params:modeling): el nodo recibe el bloque completo.
+#
+# Claves por bloque:
+#   cols_to_drop            columnas a eliminar a mano (ruido / redundancia)
+#   target_cols             columnas que se RESERVAN como target (no son features,
+#                           no se escalan ni se encodean) — se guardan en _target_raw
+#   missing_threshold       fraccion de nulos por encima de la cual se elimina la
+#                           feature (KNN no imputa de forma fiable casi-todo-nulo)
+#   categorical_cols_impute categoricas: NaN -> 'Unknown' (en cleaning)
+#   scaler_type             standard | robust | minmax
+#   knn_neighbors           k del KNNImputer (post-escalado)
+#   encoding.binary_cols    LabelEncoder 0/1
+#   encoding.ordinal_maps   {col: {categoria: entero}} (preserva orden)
+#   encoding.nominal_cols   One-Hot (drop_first=False)
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# EXAMINATION  (BMX + BPXO)  — target: presion arterial
+#   regresion  -> presion_pulso (rigidez/edad vascular)
+#   clasificacion -> hipertension (sistolica >= 130)  [se deriva en modelado]
+# -----------------------------------------------------------------------------
+exam:
+  cols_to_drop: []
+  target_cols:
+    - sistolica
+    - diastolica
+    - presion_pulso
+  # Derivacion del target en data_split: reg = presion_pulso (edad vascular);
+  # clf = hipertension (sistolica >= 130 mmHg, umbral ACC/AHA 2017).
+  target:
+    type: column
+    reg: presion_pulso
+    clf_from: sistolica
+    clf_threshold: 130
+    clf_name: hipertension
+  missing_threshold: 0.6
+  categorical_cols_impute: []
+  scaler_type: standard
+  knn_neighbors: 5
+  encoding:
+    binary_cols: []
+    ordinal_maps: {}
+    nominal_cols: []
+
+
+# -----------------------------------------------------------------------------
+# LABORATORY  (biomarcadores)  — target: edad biologica (PhenoAge, Levine)
+#   Los 9 biomarcadores del PhenoAge se RESERVAN como target (se calculara la
+#   edad biologica en modelado, con la edad de DEMO). El resto son features.
+#   regresion -> PhenoAge continua | clasificacion -> envejecimiento acelerado
+# -----------------------------------------------------------------------------
+lab:
+  # cotinina_cat es redundante con cotinina_log (continua) -> se elimina
+  cols_to_drop:
+    - cotinina_cat
+  target_cols:
+    - albumina
+    - creatinina
+    - glucosa_serica
+    - crp
+    - linfocitos_pct
+    - mcv
+    - rdw
+    - alp
+    - wbc
+  # Derivacion del target en data_split: reg = PhenoAge (Levine, fórmula con los 9
+  # biomarcadores + edad de demo); clf = envejecimiento acelerado (PhenoAge > edad).
+  target:
+    type: phenoage
+  missing_threshold: 0.6
+  categorical_cols_impute: []
+  scaler_type: standard
+  knn_neighbors: 5
+  encoding:
+    binary_cols: []
+    ordinal_maps: {}
+    nominal_cols: []
+
+
+# -----------------------------------------------------------------------------
+# QUESTIONNAIRE  (estilo de vida / comorbilidad)  — target: salud autopercibida
+#   salud_autopercibida (1=excelente ... 5=mala) es de los predictores de
+#   mortalidad mas robustos. regresion -> escala 1-5 | clasificacion -> mala/buena
+# -----------------------------------------------------------------------------
+quest:
+  cols_to_drop: []
+  target_cols:
+    - salud_autopercibida
+  # Derivacion del target en data_split: reg = salud_autopercibida (1-5);
+  # clf = mala salud (>= 4, es decir 'regular'/'mala' vs 'buena'/'muy buena'/'excelente').
+  target:
+    type: column
+    reg: salud_autopercibida
+    clf_from: salud_autopercibida
+    clf_threshold: 4
+    clf_name: mala_salud
+  missing_threshold: 0.6
+  categorical_cols_impute:
+    - tabaquismo
+    - sueno_categoria
+  scaler_type: standard
+  knn_neighbors: 5
+  encoding:
+    binary_cols: []
+    ordinal_maps: {}
+    nominal_cols:
+      - tabaquismo
+      - sueno_categoria
+
+
+# -----------------------------------------------------------------------------
+# DEMOGRAPHICS  (DEMO_J)  — SIN target propio (covariables / spine demografico)
+#   Aporta edad/sexo (necesarios para PhenoAge al unir con laboratory) y nivel
+#   socioeconomico. target_cols vacio: demo no entrena un target, se une al final.
+#   educacion se trata como NUMERICA (ordinal 1-5) para que KNN la impute; las
+#   demas categoricas van a One-Hot ('Unknown' captura el missing estructural de
+#   adultos: DMDEDUC2/DMDMARTL solo se preguntan a 20+ -> ~40% nulo en 0-80 años).
+# -----------------------------------------------------------------------------
+demo:
+  cols_to_drop: []
+  target_cols: []
+  missing_threshold: 0.6
+  categorical_cols_impute:
+    - sexo
+    - raza
+    - estado_civil
+    - nacido_eeuu
+  scaler_type: standard
+  knn_neighbors: 5
+  encoding:
+    binary_cols:
+      - sexo
+    ordinal_maps: {}
+    nominal_cols:
+      - raza
+      - estado_civil
+      - nacido_eeuu
+
+
+# -----------------------------------------------------------------------------
+# DIETARY  (DR1TOT + DR2TOT, promedio 2 dias)  — SIN target propio (Opcion A)
+#   Un indice de calidad dietetica usaria los mismos nutrientes que serian
+#   features -> circularidad. Por eso diet NO entrena un target propio: los 27
+#   nutrientes/ratios son features y el target de reg/clf saldra del JOIN con el
+#   PhenoAge de laboratory (predecir edad biologica desde la dieta). El no
+#   supervisado descubre patrones dieteticos sin target. Todo numerico (sin
+#   categoricas ni encoding); solo escala + KNN.
+# -----------------------------------------------------------------------------
+diet:
+  cols_to_drop: []
+  target_cols: []
+  missing_threshold: 0.6
+  categorical_cols_impute: []
+  scaler_type: standard
+  knn_neighbors: 5
+  encoding:
+    binary_cols: []
+    ordinal_maps: {}
+    nominal_cols: []
+
+
+# =============================================================================
+# MODELADO — catalogo de hiperparametros (copiado de prueba2)
+# -----------------------------------------------------------------------------
+# Pool COMPLETO de modelos y sus hiperparametros por defecto (sklearn). De aqui
+# elegiremos DESPUES 1 modelo por tipo (regresion / clasificacion / clustering)
+# para CADA dataset, igual que prueba2 fija best_clf_model / best_reg_model.
+#
+#   Clasificadores: DecisionTree | GaussianNB | KNN | LogisticRegression
+#                   | RandomForest | SVC
+#   Regresores:     LinearRegression | PolynomialRegression | DecisionTree
+#                   | KNN | RandomForest | SVR
+#   Clustering:     KMeans (barrido de k) | DBSCAN (grid eps/min_samples), con PCA
+#
+# PENDIENTE: bloque de seleccion por dataset (best_*_model para exam/lab/quest/demo).
+# =============================================================================
+
+modeling:
+  random_state: 42
+  test_size: 0.2
+  cv_folds: 5
+  rs_n_iter: 40
+  pca_n_components: 15
+  kmeans_k_max: 8
+  dbscan_pca_components: 5
+
+  # -- Clasificadores (sklearn) --
+  clf_decision_tree:
+    criterion: gini
+    splitter: best
+    max_depth: null
+    min_samples_split: 2
+    min_samples_leaf: 1
+    max_features: null
+    class_weight: null
+    ccp_alpha: 0.0
+
+  clf_gaussian_nb:
+    var_smoothing: 1.0e-9
+
+  clf_knn:
+    n_neighbors: 5
+    weights: uniform
+    algorithm: auto
+    p: 2
+    metric: minkowski
+
+  clf_logistic_regression:
+    penalty: l2
+    C: 1.0
+    solver: lbfgs
+    max_iter: 1000
+    class_weight: null
+
+  clf_random_forest:
+    n_estimators: 100
+    criterion: gini
+    max_depth: null
+    min_samples_split: 2
+    min_samples_leaf: 1
+    max_features: sqrt
+    bootstrap: true
+    class_weight: null
+    ccp_alpha: 0.0
+
+  clf_svc:
+    C: 1.0
+    kernel: rbf
+    gamma: scale
+    degree: 3
+    class_weight: balanced
+
+  # -- Regresores (sklearn) --
+  # LinearRegression no lleva hiperparametros propios (no aparece bloque).
+  reg_decision_tree:
+    criterion: squared_error
+    splitter: best
+    max_depth: null
+    min_samples_split: 2
+    min_samples_leaf: 1
+    ccp_alpha: 0.0
+
+  reg_knn:
+    n_neighbors: 5
+    weights: uniform
+    algorithm: auto
+    p: 2
+
+  reg_polynomial_degree: 2
+
+  reg_random_forest:
+    n_estimators: 100
+    criterion: squared_error
+    max_depth: null
+    min_samples_split: 2
+    min_samples_leaf: 1
+    max_features: 1.0
+    bootstrap: true
+    ccp_alpha: 0.0
+
+  reg_svr:
+    kernel: rbf
+    gamma: scale
+    C: 1.0
+    epsilon: 0.1
+    degree: 3
+
+  # -- Clustering (no supervisado) --
+  # KMeans: se barre k de 2..kmeans_k_max (n_init=10) y se elige por silueta/codo.
+  # DBSCAN: se evalua un grid de (eps, min_samples); PCA mas agresivo
+  #         (dbscan_pca_components) por su sensibilidad a la dimensionalidad.
+  cluster_kmeans:
+    n_init: 10
+  cluster_dbscan_grid:
+    - {eps: 0.5, min_samples: 5}
+    - {eps: 0.8, min_samples: 5}
+    - {eps: 1.0, min_samples: 5}
+    - {eps: 1.0, min_samples: 10}
+    - {eps: 1.5, min_samples: 5}
