@@ -3,15 +3,16 @@ from kedro.pipeline import Pipeline, node
 from .nodes import create_target, split_dataset
 
 # Datasets con target supervisado. demo/diet no tienen target (solo clustering).
-SUPERVISED = ["exam", "lab", "quest"]
+# 'master' = tabla maestra combinada (un solo modelo de edad biologica).
+SUPERVISED = ["exam", "lab", "quest", "master"]
 
 
 def create_pipeline(**kwargs) -> Pipeline:
     nodes = []
     for ds in SUPERVISED:
-        # lab calcula PhenoAge -> necesita la edad cronologica de demo.
+        # lab y master calculan PhenoAge -> necesitan la edad cronologica de demo.
         ct_inputs = [f"{ds}_target_raw", f"params:{ds}"]
-        if ds == "lab":
+        if ds in ("lab", "master"):
             ct_inputs.append("demo_intermediate")
         nodes.append(
             node(

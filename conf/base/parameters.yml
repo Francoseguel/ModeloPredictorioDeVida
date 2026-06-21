@@ -21,6 +21,17 @@
 
 
 # -----------------------------------------------------------------------------
+# COHORTE — filtro de poblacion aplicado en data_cleaning a los 5 datasets.
+#   El estudio es de envejecimiento/edad biologica: se restringe a >= 40 años
+#   (cohorte estandar de longevidad). Ademas evita el missing estructural de
+#   educacion/estado_civil (solo preguntados a 20+) y el ruido de menores.
+#   Pon cohort_min_age: null para desactivar el filtro (usar toda la poblacion).
+# -----------------------------------------------------------------------------
+cohort:
+  cohort_min_age: 40
+
+
+# -----------------------------------------------------------------------------
 # EXAMINATION  (BMX + BPXO)  — target: presion arterial
 #   regresion  -> presion_pulso (rigidez/edad vascular)
 #   clasificacion -> hipertension (sistolica >= 130)  [se deriva en modelado]
@@ -163,6 +174,41 @@ diet:
     binary_cols: []
     ordinal_maps: {}
     nominal_cols: []
+
+
+# -----------------------------------------------------------------------------
+# MASTER  — tabla maestra (union de los 5 bloques por SEQN) -> UN solo modelo.
+#   Target = PhenoAge (edad biologica) calculado desde los 9 biomarcadores de lab
+#   + edad (la edad se usa SOLO para el target, NO es feature: se excluye en merge).
+#   reg = edad biologica | clf = envejecimiento acelerado (PhenoAge > edad).
+#   Columnas prefijadas por bloque (exam_/lab_/quest_/diet_/demo_). Las categoricas
+#   ya vienen 'Unknown'-rellenadas del cleaning de cada bloque.
+# -----------------------------------------------------------------------------
+master:
+  cols_to_drop: []
+  target_cols: []
+  target:
+    type: phenoage
+  missing_threshold: 0.6
+  categorical_cols_impute:
+    - quest_tabaquismo
+    - quest_sueno_categoria
+    - demo_sexo
+    - demo_raza
+    - demo_estado_civil
+    - demo_nacido_eeuu
+  scaler_type: standard
+  knn_neighbors: 5
+  encoding:
+    binary_cols:
+      - demo_sexo
+    ordinal_maps: {}
+    nominal_cols:
+      - quest_tabaquismo
+      - quest_sueno_categoria
+      - demo_raza
+      - demo_estado_civil
+      - demo_nacido_eeuu
 
 
 # =============================================================================

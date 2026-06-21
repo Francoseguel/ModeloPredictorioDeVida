@@ -3,7 +3,7 @@ from kedro.pipeline import Pipeline, node
 from .nodes import transform_train_test
 
 # Transformacion post-split (fit en train) para los datasets supervisados.
-SUPERVISED = ["exam", "lab", "quest"]
+SUPERVISED = ["exam", "lab", "quest", "master"]
 
 
 def create_pipeline(**kwargs) -> Pipeline:

@@ -5,7 +5,21 @@ import pandas as pd
 logger = logging.getLogger(__name__)
 
 
-def clean_dataset(df: pd.DataFrame, params: dict) -> tuple:
+def build_cohort(demo_intermediate: pd.DataFrame, params: dict) -> pd.Index:
+    # Construye el indice de SEQN elegibles segun el filtro de cohorte por edad
+    # (params['cohort_min_age']). Se calcula desde demo_intermediate (tiene 'edad')
+    # y se aplica a TODOS los datasets en clean_dataset (union por SEQN). Si
+    # cohort_min_age es null, devuelve todos los SEQN (sin filtro).
+    min_age = params.get("cohort_min_age")
+    if min_age is None:
+        logger.info("Sin filtro de cohorte (cohort_min_age=null): %d personas", len(demo_intermediate))
+        return pd.Index(demo_intermediate.index)
+    elig = demo_intermediate.index[demo_intermediate["edad"] >= min_age]
+    logger.info("Cohorte edad >= %s: %d de %d personas", min_age, len(elig), len(demo_intermediate))
+    return pd.Index(elig)
+
+
+def clean_dataset(df: pd.DataFrame, params: dict, cohort: pd.Index) -> tuple:
     # Limpieza de un componente NHANES (mismo patron que prueba2.data_cleaning,
     # generalizado a un bloque de parametros por dataset).
     #
@@ -21,6 +35,12 @@ def clean_dataset(df: pd.DataFrame, params: dict) -> tuple:
     #
     # SEQN viaja en el indice, no se toca. Devuelve (features_limpias, target_raw).
     df = df.copy()
+
+    # 0. Filtro de cohorte (edad): se aplica ANTES de todo para que missingness,
+    #    target y split se calculen solo sobre la poblacion de estudio.
+    n0 = len(df)
+    df = df.loc[df.index.intersection(cohort)]
+    logger.info("Cohorte aplicada: %d -> %d filas", n0, len(df))
 
     cols_to_drop = [c for c in (params.get("cols_to_drop") or []) if c in df.columns]
     if cols_to_drop:

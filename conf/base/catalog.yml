@@ -451,6 +451,81 @@ diet_encoded:
 
 
 # #############################################################################
+# MASTER — tabla maestra combinada (pipeline data_merge) + su flujo de modelado.
+# master_clean = union de los 5 bloques (sin edad); master_target_raw = 9 biomarcadores.
+# #############################################################################
+master_clean:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/master_clean.parquet
+master_target_raw:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/master_target_raw.parquet
+master_target:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/master_target.parquet
+master_X_train_raw:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/master_X_train_raw.parquet
+master_X_test_raw:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/master_X_test_raw.parquet
+master_X_train:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/master_X_train.parquet
+master_X_test:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/master_X_test.parquet
+master_y_train_clf:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/master_y_train_clf.parquet
+master_y_test_clf:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/master_y_test_clf.parquet
+master_y_train_reg:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/master_y_train_reg.parquet
+master_y_test_reg:
+  type: pandas.ParquetDataset
+  filepath: data/06_model_input/master_y_test_reg.parquet
+master_clf_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/master_clf_report.csv
+master_reg_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/master_reg_report.csv
+master_clf_tuned_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/master_clf_tuned_report.csv
+master_reg_tuned_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/master_reg_tuned_report.csv
+
+# #############################################################################
+# CLUSTERING (pipeline clustering) — fenotipos no supervisados
+#   {ds}_cluster_report: tabla de metricas (KMeans barrido + DBSCAN grid + comp.)
+#   {ds}_cluster_labels: etiqueta de cluster por SEQN (mejor KMeans)
+# #############################################################################
+master_cluster_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/master_cluster_report.csv
+master_cluster_labels:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/master_cluster_labels.parquet
+lab_cluster_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/lab_cluster_report.csv
+lab_cluster_labels:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/lab_cluster_labels.parquet
+diet_cluster_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/diet_cluster_report.csv
+diet_cluster_labels:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/diet_cluster_labels.parquet
+
+
+# #############################################################################
 # DATA SPLIT (pipeline data_split) — target derivado + train/test estratificado
 # Solo datasets supervisados (exam/lab/quest). SEQN viaja en el indice.
 #   *_target            -> 06_model_input : y_reg + y_clf por persona
