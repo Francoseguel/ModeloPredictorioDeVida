@@ -69,13 +69,12 @@ export default function StepForm() {
   };
 
   const onSubmit = async (data: FormData) => {
-    // IMC = peso (kg) / altura (m)^2. El modelo usa 'imc' como feature.
     const imc = +(data.peso / Math.pow(data.altura / 100, 2)).toFixed(1);
     const { peso: _peso, altura: _altura, ...resto } = data;
     const payload = {
       ...resto,
       imc,
-      altura: data.altura, // 'altura' tambien es feature del modelo (bloque exam)
+      altura: data.altura,
       activo_oms: data.activo_oms === "true",
       diabetes_flag: !!data.diabetes_flag,
       hipertension_dx: !!data.hipertension_dx,
@@ -84,9 +83,6 @@ export default function StepForm() {
       cintura: data.cintura ?? null,
     };
 
-    // Puente paciente -> doctor: guardamos los datos mapeados a las columnas RAW
-    // del modelo (mismas claves que usa el formulario del doctor) para que su
-    // panel se prerrellene y la prediccion combine paciente + datos clinicos.
     const datosParaDoctor: Record<string, string> = {
       edad: String(data.edad),
       demo_sexo: data.sexo,
@@ -108,23 +104,17 @@ export default function StepForm() {
     } catch { /* localStorage no disponible */ }
 
     try {
-      // --- CAMBIO CLAVE PARA USAR LA IP DE AWS ---
       const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
       const response = await fetch(`${API_BASE_URL}/api/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      // -------------------------------------------
-      
       if (!response.ok) throw new Error("Error en la prediccion");
       setResultado(await response.json());
     } catch (error) {
       console.error("Error al conectar con la API:", error);
       alert("Hubo un error al conectar con el servidor. Verifica que el modelo en la nube esté respondiendo.");
-    } catch (error) {
-      console.error("Error al conectar con la API:", error);
-      alert("Hubo un error al conectar con el servidor. Asegurate de que FastAPI este corriendo en el puerto 8000.");
     }
   };
 
