@@ -1,0 +1,11 @@
+# API
+fastapi
+uvicorn[standard]
+pydantic>=2
+
+# Inferencia del modelo MASTER (versiones = entorno de entrenamiento NHANES,
+# necesarias para cargar master_bundle.joblib sin incompatibilidades de pickle)
+scikit-learn==1.9.0
+joblib==1.5.3
+pandas==3.0.3
+numpy
