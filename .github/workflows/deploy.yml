@@ -1,0 +1,65 @@
+name: CI/CD Pipeline AWS
+
+# Trigger: El pipeline de automatización debe configurarse para ejecutarse exclusivamente al hacer un push sobre la rama deploy.
+on:
+  push:
+    branches:
+      - deploy
+
+jobs:
+  # Paso 1 y 2 - Build y Push de las imágenes a Docker Hub
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Iniciar sesión en Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build y Push del Backend
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/esperanza-backend:latest ./backend
+          docker push ${{ secrets.DOCKER_USERNAME }}/esperanza-backend:latest
+
+      - name: Build y Push del Frontend
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/esperanza-frontend:latest ./frontend
+          docker push ${{ secrets.DOCKER_USERNAME }}/esperanza-frontend:latest
+
+  # Paso 3 - Deploy en Instancia Restringida (Backend)
+  deploy-backend:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Conexión SSH y Despliegue Backend
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_BACKEND_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker rm -f esperanza_vida_backend || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/esperanza-backend:latest
+            # Ejecuta con el volumen persistente exigido en la rúbrica
+            docker run -d --name esperanza_vida_backend -p 8000:8000 --restart unless-stopped -v ml_backend_persistencia:/app/data ${{ secrets.DOCKER_USERNAME }}/esperanza-backend:latest
+
+  # Paso 3 - Deploy en Instancia Pública (Frontend)
+  deploy-frontend:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Conexión SSH y Despliegue Frontend
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_FRONTEND_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker rm -f esperanza_vida_frontend || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/esperanza-frontend:latest
+            # Conecta el frontend con la IP pública del backend
+            docker run -d --name esperanza_vida_frontend -p 3000:3000 --restart unless-stopped -e NEXT_PUBLIC_API_URL=http://${{ secrets.EC2_BACKEND_HOST }}:8000 ${{ secrets.DOCKER_USERNAME }}/esperanza-frontend:latest
