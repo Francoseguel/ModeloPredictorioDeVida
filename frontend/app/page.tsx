@@ -17,11 +17,13 @@ export default function Home() {
 
       <div className="max-w-3xl w-full space-y-8 text-center mb-10 mt-10">
         <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
-          Evaluación de <span className="text-blue-600">Longevidad</span>
+          Calcule su <span className="text-blue-600">Edad Biológica</span>
         </h1>
         <p className="text-lg text-slate-600">
-          Complete este breve cuestionario clínico. Nuestro motor predictivo analizará sus biomarcadores utilizando la base de datos NHANES.
+          Complete este breve cuestionario de estilo de vida. Estimaremos su edad biológica
+          y si presenta envejecimiento acelerado, con el modelo NHANES (PhenoAge).
         </p>
+        <p className="text-sm text-slate-400">Dirigido a personas de 40 años o más.</p>
       </div>
 
       <div className="w-full">
