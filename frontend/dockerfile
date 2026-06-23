@@ -1,8 +1,6 @@
 # --- Etapa 1: Dependencias (Deps) ---
-# Usamos una imagen de Node ligera
 FROM node:20-alpine AS deps
 WORKDIR /app
-
 # Copiamos solo los archivos de dependencias para aprovechar la caché
 COPY package.json package-lock.json* ./
 # Instalamos limpiamente las dependencias
@@ -11,10 +9,15 @@ RUN npm ci
 # --- Etapa 2: Constructor (Builder) ---
 FROM node:20-alpine AS builder
 WORKDIR /app
-# Traemos las dependencias de la etapa anterior (Rúbrica: Multi-stage build)
+# Traemos las dependencias de la etapa anterior
 COPY --from=deps /app/node_modules ./node_modules
 # Copiamos todo el código fuente del frontend
 COPY . .
+
+# +++ INYECCIÓN DE LA VARIABLE DE ENTORNO EN TIEMPO DE BUILD +++
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 # Compilamos el proyecto Next.js para producción
 RUN npm run build
 
@@ -23,7 +26,7 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV production
 
-# Rúbrica: Configurar un usuario sin privilegios (no root)
+# Configurar un usuario sin privilegios (no root)
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 

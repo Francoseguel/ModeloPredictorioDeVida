@@ -27,7 +27,7 @@ jobs:
 
       - name: Build y Push del Frontend
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/esperanza-frontend:latest ./frontend
+          docker build --build-arg NEXT_PUBLIC_API_URL=http://${{ secrets.EC2_BACKEND_HOST }}:8000 -t ${{ secrets.DOCKER_USERNAME }}/esperanza-frontend:latest ./frontend
           docker push ${{ secrets.DOCKER_USERNAME }}/esperanza-frontend:latest
 
   # Paso 3 - Deploy en Instancia Restringida (Backend)
