@@ -370,25 +370,17 @@ export default function ClinicalForm() {
     // 3. Llamada al modelo master.
     setLoading(true);
     try {
-      // --- ESTE ES EL CAMBIO CLAVE ---
       const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
       const res = await fetch(`${API_BASE_URL}/api/predict/master`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ edad, features }),
       });
-      // -------------------------------
-      
       if (!res.ok) throw new Error("Error en la predicción");
       setResultado(await res.json());
     } catch (err) {
       console.error(err);
       setError("Error al conectar con la API en la nube.");
-    } finally {
-      setLoading(false);
-    } catch (err) {
-      console.error(err);
-      setError("Error al conectar con la API (FastAPI en el puerto 8000).");
     } finally {
       setLoading(false);
     }
