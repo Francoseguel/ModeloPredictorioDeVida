@@ -108,13 +108,20 @@ export default function StepForm() {
     } catch { /* localStorage no disponible */ }
 
     try {
-      const response = await fetch("http://localhost:8000/api/predict", {
+      // --- CAMBIO CLAVE PARA USAR LA IP DE AWS ---
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+      const response = await fetch(`${API_BASE_URL}/api/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+      // -------------------------------------------
+      
       if (!response.ok) throw new Error("Error en la prediccion");
       setResultado(await response.json());
+    } catch (error) {
+      console.error("Error al conectar con la API:", error);
+      alert("Hubo un error al conectar con el servidor. Verifica que el modelo en la nube esté respondiendo.");
     } catch (error) {
       console.error("Error al conectar con la API:", error);
       alert("Hubo un error al conectar con el servidor. Asegurate de que FastAPI este corriendo en el puerto 8000.");
