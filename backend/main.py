@@ -79,10 +79,11 @@ app = FastAPI(
 
 # --- CONFIGURACIoN DE CORS ---
 # Permite que el frontend en Next.js (localhost:3000) consuma esta API.
+# --- CONFIGURACION DE CORS ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
-    allow_credentials=True,
+    allow_origins=["*"],          # Permitir conexiones desde cualquier IP (nube)
+    allow_credentials=False,      # Debe ser False cuando usamos "*"
     allow_methods=["*"],
     allow_headers=["*"],
 )
