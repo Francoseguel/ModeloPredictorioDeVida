@@ -24,7 +24,9 @@ RUN npm run build
 # --- Etapa 3: Producción (Runner) ---
 FROM node:20-alpine AS runner
 WORKDIR /app
-ENV NODE_ENV production
+ENV NODE_ENV=production
+
+ENV PORT=3000
 
 # Configurar un usuario sin privilegios (no root)
 RUN addgroup --system --gid 1001 nodejs && \
