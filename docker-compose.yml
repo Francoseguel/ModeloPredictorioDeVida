@@ -1,0 +1,35 @@
+services:
+  # --- SERVICIO FRONTEND ---
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: esperanza_vida_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      # Variable para que el frontend sepa a qué IP hacerle peticiones
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend-ml # Asegura que el back inicie antes que el front
+    restart: unless-stopped
+
+  # --- SERVICIO BACKEND (El que ya teníamos) ---
+  backend-ml:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: esperanza_vida_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - MODEL_PATH=/app/master_bundle.joblib
+      - ALLOWED_ORIGINS=http://localhost:3000
+    volumes:
+      - backend_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  backend_data:
+    name: ml_backend_persistencia
