@@ -21,7 +21,6 @@ El proyecto está construido con un enfoque en **Alta Conversión (CRO)** para l
 * **Frontend:** Next.js (React), Tailwind CSS.
 * **Backend:** Python, FastAPI (para inferencia del modelo y API REST).
 * **Machine Learning:** Scikit-learn / XGBoost, Pandas.
-* **Base de Datos:** PostgreSQL.
 
 ## ⚠️ Aviso Legal y Médico
 **IMPORTANTE:** Este software y su modelo predictivo asociado están desarrollados con fines experimentales, educativos y de investigación. Las predicciones generadas **no constituyen consejo médico, diagnóstico ni pronóstico profesional**. La herramienta está diseñada como un soporte analítico y las decisiones clínicas siempre deben ser tomadas por un profesional de la salud cualificado.
